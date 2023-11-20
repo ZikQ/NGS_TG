@@ -12,7 +12,7 @@ namespace TEst
 
         public async Task Start()
         {
-            Bot bot = new("6214202891:AAGW4pj0MthI9aCZxHYffJo1ANEwrpyoufg");
+            Bot bot = new();
 
             Module.Register<TestModule>();
             
