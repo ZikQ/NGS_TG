@@ -1,4 +1,6 @@
 # NGS_TG
 
 
-Требуется https://github.com/TelegramBots/Telegram.Bot?ysclid=lp6zd21187398062481
+Extension for https://github.com/TelegramBots/Telegram.Bot.
+
+implemented Events, Command Hanler, Checkers. Full async extension
