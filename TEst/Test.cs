@@ -3,7 +3,7 @@ using TEst;
 
 public class TestModule : Module
 {
-    public override string Name { get; set; } = "����";
+    public override string Name { get; set; } = "Test module";
 
     public override void OnLoad()
     {

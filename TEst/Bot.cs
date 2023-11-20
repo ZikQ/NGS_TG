@@ -12,7 +12,7 @@ namespace TEst
 
         public async Task Start()
         {
-            Bot bot = new("");
+            Bot bot = new(Token);
 
             Module.Register<TestModule>();
             
@@ -28,11 +28,11 @@ namespace TEst
 
         public async Task OnReady(ClientReadyEventArgs e)
         {
-            Console.WriteLine("huy");
+            Console.WriteLine($"{e.Bot.User.Username} ready to use!");
         }
         public async Task OnMessageCreated(MessageCreatedEventArgs e)
         {
-            Console.WriteLine(e.Message.Text);
+            Console.WriteLine($"{e.Message.Text} created!");
         }
     }
 }
