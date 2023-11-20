@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NGS_TG": {
+      "commandName": "Project"
+    },
+    "Профиль 1": {
+      "commandName": "Executable"
+    }
+  }
+}
