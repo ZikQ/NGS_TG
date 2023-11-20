@@ -114,7 +114,8 @@ namespace NGS_TG
             {
                 Name = name,
                 Exception = ex,
-                Bot = _client
+                Bot = this,
+                Client = _client,
             };
 
             await _clientError.InvokeAsync(e);
@@ -131,7 +132,8 @@ namespace NGS_TG
             {
                 ChatJoinRequestEventArgs ev = new()
                 {
-                    Bot = _client,
+                    Bot = this,
+                    Client = _client,
                     JoinRequest = update.ChatJoinRequest
                 };
 
@@ -142,7 +144,8 @@ namespace NGS_TG
                 ChatMemberUpdateEventArgs ev = new()
                 {
                     Updated = update.ChatMember,
-                    Bot = _client
+                    Bot = this,
+                    Client = _client,
                 };
 
                 await _chatMemberUpdated.InvokeAsync(ev);
@@ -152,7 +155,8 @@ namespace NGS_TG
                 ChatMemberUpdateEventArgs ev = new()
                 {
                     Updated = update.MyChatMember,
-                    Bot = _client
+                    Bot = this,
+                    Client = _client,
                 };
 
                 await _chatMemberUpdated.InvokeAsync(ev);
@@ -162,7 +166,8 @@ namespace NGS_TG
                 PollEventArgs ev = new()
                 {
                     Poll = update.Poll,
-                    Bot = _client
+                    Bot = this,
+                    Client = _client,
                 };
 
                 await _poll.InvokeAsync(ev);
@@ -171,7 +176,9 @@ namespace NGS_TG
             {
                 ChannelPostEventArgs ev = new()
                 {
-                    Message = update.Message
+                    Message = update.Message,
+                    Bot = this,
+                    Client = _client,
                 };
 
                 await _channelPosted.InvokeAsync(ev);
@@ -188,7 +195,8 @@ namespace NGS_TG
                 MessageCreatedEventArgs ev = new()
                 {
                     Message = update.Message,
-                    Bot = _client
+                    Bot = this,
+                    Client = _client,
                 };
 
                 await _messageCreated.InvokeAsync(ev);
@@ -200,7 +208,8 @@ namespace NGS_TG
                 {
                     OldMessage = update.Message,
                     NewMessage = update.EditedMessage,
-                    Bot = _client
+                    Bot = this,
+                    Client = _client,
                 };
 
                 await _messageUpdated.InvokeAsync(ev);
@@ -228,7 +237,8 @@ namespace NGS_TG
         {
             ClientReadyEventArgs e = new()
             {
-                Bot = _client
+                Bot = this,
+                Client = _client,
             };
 
             await _clientReady.InvokeAsync(e);
@@ -238,7 +248,8 @@ namespace NGS_TG
             return new()
             {
                 Message = message,
-                Bot = _client,
+                Bot = this,
+                Client = _client,
                 Command = command
             };
         }
@@ -269,7 +280,8 @@ namespace NGS_TG
                 CommandErrorEventArgs ev = new()
                 {
                     Message = "CommandNotFound",
-                    Bot = _client
+                    Bot = this,
+                    Client = _client,
                 };
                 await _commandError.InvokeAsync(ev);
                 return false;
@@ -290,7 +302,8 @@ namespace NGS_TG
                     {
                         Context = ctx,
                         Message = "CheckFailed",
-                        Bot = _client
+                        Bot = this,
+                        Client = _client,
                     };
                     await _commandError.InvokeAsync(ev);
                     return false;

@@ -12,7 +12,8 @@ namespace NGS_TG.EventArgs
     public class PollAnswerEventArgs : AsyncEventArgs
     {
         public PollAnswer PollAnswer { get; internal set; }
-        public ITelegramBotClient Bot { get; internal set; }
+        public ITelegramBotClient Client { get; internal set; }
+        public Bot Bot { get; internal set; }
         public string PollId => PollAnswer.PollId;
         public User? Chat => PollAnswer.User;
     }

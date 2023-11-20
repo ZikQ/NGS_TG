@@ -11,7 +11,8 @@ namespace NGS_TG.EventArgs
 {
     public class ChatMemberUpdateEventArgs : AsyncEventArgs
     {
-        public ITelegramBotClient Bot { get; internal set; }
+        public ITelegramBotClient Client { get; internal set; }
+        public Bot Bot { get; internal set; }
         internal ChatMemberUpdated Updated { get; set; }
         public User User => Updated.From;
         public Chat Chat => Updated.Chat;

@@ -5,6 +5,7 @@ namespace NGS_TG.EventArgs
 {
     public class ClientReadyEventArgs : AsyncEventArgs
     {
-        public ITelegramBotClient Bot { get; internal set; }
+        public ITelegramBotClient Client { get; internal set; }
+        public Bot Bot { get; internal set; }
     }
 }

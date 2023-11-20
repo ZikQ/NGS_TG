@@ -15,6 +15,7 @@ namespace NGS_TG.EventArgs
         public Message NewMessage { get; internal set; }
         public Chat Chat => OldMessage.Chat;
         public User Author => OldMessage.From;
-        public ITelegramBotClient Bot { get; internal set; }
+        public ITelegramBotClient Client { get; internal set; }
+        public Bot Bot { get; internal set; }
     }
 }

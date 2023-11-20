@@ -11,7 +11,8 @@ namespace NGS_TG.EventArgs
 {
     public class ChatJoinRequestEventArgs : AsyncEventArgs
     {
-        public ITelegramBotClient Bot { get; internal set; }
+        public ITelegramBotClient Client { get; internal set; }
+        public Bot Bot { get; internal set; }
         public ChatJoinRequest JoinRequest { get; internal set; }
         public Chat Chat => JoinRequest.Chat;
         public User From => JoinRequest.From;

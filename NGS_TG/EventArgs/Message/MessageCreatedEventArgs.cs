@@ -10,6 +10,7 @@ namespace NGS_TG.EventArgs
         public Message Message { get; internal set; }
         public Chat MessageChat => Message.Chat;
         public User Author => Message.From;
-        public ITelegramBotClient Bot { get; internal set; }
+        public ITelegramBotClient Client { get; internal set; }
+        public Bot Bot { get; internal set; }
     }
 }
