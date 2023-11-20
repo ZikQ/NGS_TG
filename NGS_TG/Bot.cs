@@ -304,16 +304,13 @@ namespace NGS_TG
         {
             List<BotCommand> commands = new List<BotCommand>();
 
-            foreach (var i in Commands.Module.Modules)
+            foreach (var command in Commands.Module.Modules.SelectMany(x => x.Commands))
             {
-                foreach (var a in i.Commands)
+                commands.Add(new()
                 {
-                    commands.Add(new()
-                    {
-                        Command = a.Name,
-                        Description = a.Description,
-                    });
-                }
+                    Command = command.Name,
+                    Description = command.Description,
+                });
             }
 
             await _client.SetMyCommandsAsync(commands);

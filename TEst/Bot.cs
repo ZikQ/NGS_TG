@@ -22,11 +22,6 @@ namespace TEst
             {
                 Console.WriteLine(e.Message);
             };
-            bot.ClientReady += async(e) =>
-            {
-                //Console.WriteLine(bot.User.Username);
-            };
-            Console.WriteLine(bot.User.Username);
 
             await bot.ConnectAsync();
         }
