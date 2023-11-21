@@ -7,10 +7,11 @@ namespace NGS_TG.Commands
     {
         public int Id { get; private set; }
         public abstract string Name { get; set; }
+        public Bot Bot { get; private set; }
         public static List<Module> Modules { get; private set; } = new List<Module>();
         public List<Command> Commands { get; private set; } = new();
         public abstract void OnLoad();
-        public static void Register<T>() where T : Module, new()
+        internal static void Register<T>(Bot bot) where T : Module, new()
         {
             var obj = new T();
 
@@ -34,6 +35,7 @@ namespace NGS_TG.Commands
 
             Modules.Add(obj);
 
+            obj.Bot = bot;
             obj.OnLoad();
         }
         public static Command FindCommandByName(string name)

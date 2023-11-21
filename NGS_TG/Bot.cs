@@ -2,6 +2,7 @@
 using NGS_TG.Commands;
 using NGS_TG.EventArgs;
 using NGS_TG.Events;
+using System.Collections.Concurrent;
 using System.Reflection;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -23,9 +24,10 @@ namespace NGS_TG
         private AsyncEvent<PollAnswerEventArgs> _pollAnswer;
         private AsyncEvent<ChatMemberUpdateEventArgs> _chatMemberUpdated;
         private AsyncEvent<ChatJoinRequestEventArgs> _chatJoinRequest;
-
+        private AsyncEvent<CallbackQueryEventArgs> _callbackQuery;
+            
         private ITelegramBotClient _client;
-        
+
         public ReceiverOptions ReceiverOptions { get; set; } = new ReceiverOptions
         {
             AllowedUpdates = { }
@@ -80,6 +82,11 @@ namespace NGS_TG
             add => _chatJoinRequest.Register(value);
             remove => _chatJoinRequest.Unregister(value);
         }
+        public event Events.AsyncEventHandler<CallbackQueryEventArgs> CallbackQuery
+        {
+            add => _callbackQuery.Register(value);
+            remove => _callbackQuery.Unregister(value);
+        }
 
         public Bot(TelegramBotClientOptions options, HttpClient? httpClient = null)
         {
@@ -95,6 +102,8 @@ namespace NGS_TG
         }
         private void InternalInit()
         {
+            MessageExtension._client = _client;
+
             _clientReady = new("CLIENT_READY", ErrorHandler);
             _clientError = new("CLIENT_ERROR", ErrorHandler);
             _messageCreated = new("MESSAGE_CREATED", ErrorHandler);
@@ -105,6 +114,8 @@ namespace NGS_TG
             _poll = new("POLL", ErrorHandler);
             _pollAnswer = new("POLL_ANSWER", ErrorHandler);
             _chatMemberUpdated = new("CHAT_MEMBER_UPDATED", ErrorHandler);
+            _callbackQuery = new("CALLBACK_QUERY", ErrorHandler);
+
 
             User = _client.GetMeAsync().GetAwaiter().GetResult();
         }
@@ -187,10 +198,7 @@ namespace NGS_TG
             {
                 bool flag = await CheckAndExecuteCommand(update.Message);
 
-                if (!flag)
-                {
-                    return;
-                }
+                if (!flag) return;
 
                 MessageCreatedEventArgs ev = new()
                 {
@@ -201,7 +209,6 @@ namespace NGS_TG
 
                 await _messageCreated.InvokeAsync(ev);
             }
-
             if (update.Type == UpdateType.EditedMessage)
             {
                 MessageUpdatedEventArgs ev = new()
@@ -214,6 +221,21 @@ namespace NGS_TG
 
                 await _messageUpdated.InvokeAsync(ev);
             }
+            if (update.Type == UpdateType.CallbackQuery)
+            {
+                CallbackQueryEventArgs ev = new()
+                {
+                    CallbackQuery = update.CallbackQuery,
+                    Client = _client,
+                    Bot = this
+                };
+
+                await _callbackQuery.InvokeAsync(ev);
+            }
+        }
+        public void RegisterModule<T>() where T : Commands.Module, new()
+        {
+            Commands.Module.Register<T>(this);
         }
         public async Task ConnectAsync()
         {
@@ -230,7 +252,7 @@ namespace NGS_TG
                 ReceiverOptions,
                 cancellationToken
             );
-
+            
             Console.ReadKey();
         }
         private async Task Ready()

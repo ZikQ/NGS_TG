@@ -14,14 +14,10 @@ namespace TEst
         {
             Bot bot = new(Token);
 
-            Module.Register<TestModule>();
+            bot.RegisterModule<TestModule>();
             
             bot.MessageCreated += OnMessageCreated;
             bot.ClientReady += OnReady;
-            bot.CommandError += async (e) =>
-            {
-                Console.WriteLine(e.Message);
-            };
 
             await bot.ConnectAsync();
         }
